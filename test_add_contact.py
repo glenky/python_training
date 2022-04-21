@@ -2,6 +2,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoAlertPresentException
 import unittest
+from contact import Contact
 
 
 class TestAddContact(unittest.TestCase):
@@ -11,48 +12,63 @@ class TestAddContact(unittest.TestCase):
     
     def test_add_contact(self):
         driver = self.driver
-        driver.get("http://localhost/addressbook/")
+        self.open_home_page(driver)
+        self.login(driver, "admin", "secret")
+        self.add_new_contact(driver, Contact("first_name", "middle_name", "last_name", "roga_and_kopyta", "89111234567",
+                             "something@mail.ru", "www.wwwww.com", "SPb", "work_place"))
+        self.return_to_home_page(driver)
+        self.logout(driver)
+
+    def logout(self, driver):
+        driver.find_element_by_link_text("Logout").click()
+
+    def return_to_home_page(self, driver):
+        driver.find_element_by_link_text("home").click()
+
+    def add_new_contact(self, driver, contact):
+        driver.find_element_by_link_text("add new").click()
+        # enter contact details
+        driver.find_element_by_name("firstname").click()
+        driver.find_element_by_name("firstname").clear()
+        driver.find_element_by_name("firstname").send_keys(contact.first_name)
+        driver.find_element_by_name("middlename").click()
+        driver.find_element_by_name("middlename").clear()
+        driver.find_element_by_name("middlename").send_keys(contact.middle_name)
+        driver.find_element_by_name("lastname").click()
+        driver.find_element_by_name("lastname").clear()
+        driver.find_element_by_name("lastname").send_keys(contact.last_name)
+        driver.find_element_by_name("company").click()
+        driver.find_element_by_name("company").clear()
+        driver.find_element_by_name("company").send_keys(contact.company)
+        driver.find_element_by_name("mobile").click()
+        driver.find_element_by_name("mobile").clear()
+        driver.find_element_by_name("mobile").send_keys(contact.mobile)
+        driver.find_element_by_name("email").click()
+        driver.find_element_by_name("email").clear()
+        driver.find_element_by_name("email").send_keys(contact.email)
+        driver.find_element_by_name("homepage").click()
+        driver.find_element_by_name("homepage").clear()
+        driver.find_element_by_name("homepage").send_keys(contact.home_page)
+        driver.find_element_by_name("address2").click()
+        driver.find_element_by_name("address2").clear()
+        driver.find_element_by_name("address2").send_keys(contact.address2)
+        driver.find_element_by_name("work").click()
+        driver.find_element_by_name("work").clear()
+        driver.find_element_by_name("work").send_keys(contact.work)
+        driver.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+    def login(self, driver, login, password):
         driver.find_element_by_name("user").click()
         driver.find_element_by_name("user").clear()
-        driver.find_element_by_name("user").send_keys("admin")
+        driver.find_element_by_name("user").send_keys(login)
         driver.find_element_by_id("LoginForm").click()
         driver.find_element_by_name("pass").click()
         driver.find_element_by_name("pass").clear()
-        driver.find_element_by_name("pass").send_keys("secret")
+        driver.find_element_by_name("pass").send_keys(password)
         driver.find_element_by_xpath("//input[@value='Login']").click()
-        driver.find_element_by_link_text("add new").click()
-        driver.find_element_by_name("firstname").click()
-        driver.find_element_by_name("firstname").clear()
-        driver.find_element_by_name("firstname").send_keys("first_name")
-        driver.find_element_by_name("middlename").click()
-        driver.find_element_by_name("middlename").clear()
-        driver.find_element_by_name("middlename").send_keys("middle_name")
-        driver.find_element_by_name("lastname").click()
-        driver.find_element_by_name("lastname").clear()
-        driver.find_element_by_name("lastname").send_keys("last_name")
-        driver.find_element_by_name("company").click()
-        driver.find_element_by_name("company").clear()
-        driver.find_element_by_name("company").send_keys("roga_and_kopyta")
-        driver.find_element_by_name("mobile").click()
-        driver.find_element_by_name("mobile").clear()
-        driver.find_element_by_name("mobile").send_keys("89111234567")
-        driver.find_element_by_name("email").click()
-        driver.find_element_by_name("email").clear()
-        driver.find_element_by_name("email").send_keys("something@mail.ru")
-        driver.find_element_by_name("homepage").click()
-        driver.find_element_by_name("homepage").clear()
-        driver.find_element_by_name("homepage").send_keys("www.wwwww.com")
-        driver.find_element_by_name("address2").click()
-        driver.find_element_by_name("address2").clear()
-        driver.find_element_by_name("address2").send_keys("SPb")
-        driver.find_element_by_name("work").click()
-        driver.find_element_by_name("work").clear()
-        driver.find_element_by_name("work").send_keys("work_place")
-        driver.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        driver.find_element_by_link_text("home").click()
-        driver.find_element_by_link_text("Logout").click()
-        driver.find_element_by_name("user").clear()
-        driver.find_element_by_name("user").send_keys("admin")
+
+    def open_home_page(self, driver):
+        driver.get("http://localhost/addressbook/")
 
     def tearDown(self):
         self.driver.quit()
