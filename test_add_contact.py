@@ -11,19 +11,21 @@ class TestAddContact(unittest.TestCase):
         self.driver.implicitly_wait(30)
     
     def test_add_contact(self):
-        driver = self.driver
-        self.login(driver, "admin", "secret")
-        self.add_new_contact(driver, Contact("first_name", "middle_name", "last_name", "roga_and_kopyta", "89111234567",
+        self.login("admin", "secret")
+        self.add_new_contact(Contact("first_name", "middle_name", "last_name", "roga_and_kopyta", "89111234567",
                              "something@mail.ru", "www.wwwww.com", "SPb", "work_place"))
-        self.logout(driver)
+        self.logout()
 
-    def logout(self, driver):
+    def logout(self):
+        driver = self.driver
         driver.find_element_by_link_text("Logout").click()
 
-    def return_to_home_page(self, driver):
+    def return_to_home_page(self):
+        driver = self.driver
         driver.find_element_by_link_text("home").click()
 
-    def add_new_contact(self, driver, contact):
+    def add_new_contact(self, contact):
+        driver = self.driver
         driver.find_element_by_link_text("add new").click()
         # enter contact details
         driver.find_element_by_name("firstname").click()
@@ -54,10 +56,11 @@ class TestAddContact(unittest.TestCase):
         driver.find_element_by_name("work").clear()
         driver.find_element_by_name("work").send_keys(contact.work_phone)
         driver.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        self.return_to_home_page(driver)
+        self.return_to_home_page()
 
-    def login(self, driver, login, password):
-        self.open_home_page(driver)
+    def login(self, login, password):
+        driver = self.driver
+        self.open_home_page()
         driver.find_element_by_name("user").click()
         driver.find_element_by_name("user").clear()
         driver.find_element_by_name("user").send_keys(login)
@@ -67,7 +70,8 @@ class TestAddContact(unittest.TestCase):
         driver.find_element_by_name("pass").send_keys(password)
         driver.find_element_by_xpath("//input[@value='Login']").click()
 
-    def open_home_page(self, driver):
+    def open_home_page(self):
+        driver = self.driver
         driver.get("http://localhost/addressbook/")
 
     def tearDown(self):
