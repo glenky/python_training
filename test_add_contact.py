@@ -12,11 +12,9 @@ class TestAddContact(unittest.TestCase):
     
     def test_add_contact(self):
         driver = self.driver
-        self.open_home_page(driver)
         self.login(driver, "admin", "secret")
         self.add_new_contact(driver, Contact("first_name", "middle_name", "last_name", "roga_and_kopyta", "89111234567",
                              "something@mail.ru", "www.wwwww.com", "SPb", "work_place"))
-        self.return_to_home_page(driver)
         self.logout(driver)
 
     def logout(self, driver):
@@ -42,7 +40,7 @@ class TestAddContact(unittest.TestCase):
         driver.find_element_by_name("company").send_keys(contact.company)
         driver.find_element_by_name("mobile").click()
         driver.find_element_by_name("mobile").clear()
-        driver.find_element_by_name("mobile").send_keys(contact.mobile)
+        driver.find_element_by_name("mobile").send_keys(contact.mobile_phone)
         driver.find_element_by_name("email").click()
         driver.find_element_by_name("email").clear()
         driver.find_element_by_name("email").send_keys(contact.email)
@@ -54,10 +52,12 @@ class TestAddContact(unittest.TestCase):
         driver.find_element_by_name("address2").send_keys(contact.address2)
         driver.find_element_by_name("work").click()
         driver.find_element_by_name("work").clear()
-        driver.find_element_by_name("work").send_keys(contact.work)
+        driver.find_element_by_name("work").send_keys(contact.work_phone)
         driver.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.return_to_home_page(driver)
 
     def login(self, driver, login, password):
+        self.open_home_page(driver)
         driver.find_element_by_name("user").click()
         driver.find_element_by_name("user").clear()
         driver.find_element_by_name("user").send_keys(login)

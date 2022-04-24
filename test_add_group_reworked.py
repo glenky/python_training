@@ -20,18 +20,14 @@ class UntitledTestCase(unittest.TestCase):
     
     def test_add_group(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.create_group(wd, Group(name="second", header="second1", footer="second2"))
-        self.return_to_groups_page(wd)
         self.logout(wd)
 
     def test_add_empty_group(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.create_group(wd, Group(name="", header="", footer=""))
-        self.return_to_groups_page(wd)
         self.logout(wd)
 
     def logout(self, wd):
@@ -55,8 +51,10 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_name("group_footer").send_keys(group.footer)
         # submit group creation
         wd.find_element_by_name("submit").click()
+        self.return_to_groups_page(wd)
 
     def login(self, wd, username, password):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
