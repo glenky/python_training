@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # 1.13th lesson - code refactoring, FF
 import pytest
-from application import Application
-from group import Group
+from fixrure.application import Application
+from model.group import Group
 
 @pytest.fixture
 def app(request):
