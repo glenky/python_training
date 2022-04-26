@@ -10,8 +10,8 @@ def app(request):
     return fixture
     
 def test_add_contact(app):
-    app.login("admin", "secret")
+    app.session.login("admin", "secret")
     app.add_new_contact(Contact("first_name", "middle_name", "last_name", "roga_and_kopyta", "89111234567",
                              "something@mail.ru", "www.wwwww.com", "SPb", "work_place"))
-    app.logout()
+    app.session.logout()
 
