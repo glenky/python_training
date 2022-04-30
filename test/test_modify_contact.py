@@ -8,3 +8,10 @@ def test_modify_contact(app):
                              "something1@mail.ru", "www.wwwww1.com", "SPb1", "work_place1"))
     app.session.logout()
 
+
+def test_modify_contact_firstname(app):
+    app.session.login("admin", "secret")
+    app.contact.modify_first_contact(Contact(first_name="abrakadabra"))
+    app.session.logout()
+
+
