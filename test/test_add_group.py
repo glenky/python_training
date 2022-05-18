@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # 1.13th lesson - code refactoring, FF
-from sys import maxsize
 
 from model.group import Group
 
