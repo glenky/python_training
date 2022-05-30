@@ -73,17 +73,19 @@ class ContactHelper:
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
-        self.change_field_value("firstname", contact.first_name)
-        self.change_field_value("middlename", contact.middle_name)
-        self.change_field_value("lastname", contact.last_name)
+        self.change_field_value("firstname", contact.firstname)
+        self.change_field_value("middlename", contact.middlename)
+        self.change_field_value("lastname", contact.lastname)
         self.change_field_value("company", contact.company)
-        self.change_field_value("mobile", contact.email)
-        self.change_field_value("email", contact.first_name)
-        self.change_field_value("homepage", contact.home_page)
-        self.change_field_value("address2", contact.address2)
-        self.change_field_value("work", contact.workphone)
-        self.change_field_value("mobile", contact.mobilephone)
         self.change_field_value("home", contact.homephone)
+        self.change_field_value("mobile", contact.mobilephone)
+        self.change_field_value("work", contact.workphone)
+        self.change_field_value("email", contact.email)
+        self.change_field_value("homepage", contact.homepage)
+        self.change_field_value("address2", contact.address2)
+
+
+
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
@@ -129,12 +131,9 @@ class ContactHelper:
             for row in wd.find_elements_by_name("entry"):
                 cells = row.find_elements_by_tag_name("td")
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-                lastname = cells[2].text
-                firstname = cells[1].text
+                lastname = cells[1].text
+                firstname = cells[2].text
                 all_phones = cells[5].text.splitlines()
                 self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id,
                                                   homephone=all_phones[0], mobilephone=all_phones[1], workphone=all_phones[2]))
         return list(self.contact_cache)
-
-
-
