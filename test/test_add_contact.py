@@ -4,28 +4,32 @@ import random
 import string
 import pytest
 
-def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
-    return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+
+def random_string(prefix, maxlen, type):
+    if type == "phone":
+        symbols = string.digits + " "*3 + "(" + ")"
+        return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+    elif type == "email":
+        symbols = string.digits + string.ascii_letters
+        return prefix + "@" + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+    else:
+        symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+        return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
-testdata = [
-    Contact(name=name, header=header, footer=footer)
-    for name in ["", random_string("name", 10)]
-    for header in ["", random_string("header", 10)]
-    for footer in ["", random_string("footer", 10)]
+testdata = [Contact(firstname="", middlename="", lastname="")]+[
+    Contact(firstname=random_string("firstname", 10, "string"), middlename=random_string("middlename", 15, "string"), lastname=random_string("lastname", 11, "string"),
+            company=random_string("company", 10, "string"), homephone=random_string("+", 10, "phone"), mobilephone=random_string("+", 10, "phone"),
+            workphone=random_string("+", 10, "phone"),
+            email=random_string("email", 10, "email"), email2=random_string("email", 10, "email"), email3=random_string("email", 10, "email"),
+            homepage=random_string("homepage", 10, "string"), address=random_string("address", 10, "string"), address2=random_string("address2", 10, "string"))
+    for i in range(2)
 ]
 
-testdata0 = [Group(name="", header="", footer="")]+[
-    Group(name=random_string("name", 10), header=random_string("header", 15), footer=random_string("footer", 10))
-    for i in range(5)
-]
 
-
-@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
-def test_add_contact(app):
+@pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
+def test_add_contact(app, contact):
     old_contacts = app.contact.get_contact_list()
-    contact = Contact(firstname="12", middlename="22", lastname="32", company="42", homephone="52", mobilephone="62", workphone="72", email="82", email2="sss", email3="555", homepage="92", address="adddr11111", address2="102" )
     app.contact.add_new(contact)
     assert len(old_contacts)+1 == app.contact.count()
     new_contacts = app.contact.get_contact_list()
