@@ -8,7 +8,6 @@ def test_check_all_contact_fields(app):
 
     index = randrange(contact_count)
     # print(str(index))
-    index = 1
     contact_from_home_page = app.contact.get_contact_list()[index]
     contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)
 
@@ -31,6 +30,6 @@ def merge_phones_like_on_home_page(contact):
     return "\n".join(filter(lambda x: x != "",
                             map(lambda x: clear(x),
                                 filter(lambda x: x is not None,
-                                                           [contact.homephone, contact.mobilephone, contact.workphone]))))
+                                                           [contact.homephone, contact.mobilephone, contact.workphone, contact.homephone2]))))
 
 

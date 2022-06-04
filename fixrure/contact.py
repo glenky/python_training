@@ -56,9 +56,10 @@ class ContactHelper:
         email = wd.find_element_by_name("email").get_attribute("value")
         email2 = wd.find_element_by_name("email2").get_attribute("value")
         email3 = wd.find_element_by_name("email3").get_attribute("value")
+        homephone2 = wd.find_element_by_name("phone2").get_attribute("value")
         return Contact(firstname=firstname, lastname=lastname, id=id,
                        homephone=homephone, mobilephone=mobilephone,
-                       workphone=workphone, address=address, email=email, email2=email2, email3=email3)
+                       workphone=workphone, homephone2=homephone2, address=address, email=email, email2=email2, email3=email3)
 
     def get_contact_from_view_page(self, index):
         wd = self.app.wd
@@ -67,8 +68,9 @@ class ContactHelper:
         homephone = re.search("H: (.*)", text).group(1)
         workphone = re.search("W: (.*)", text).group(1)
         mobilephone = re.search("M: (.*)", text).group(1)
+        homephone2 = re.search("P: (.*)", text).group(1)
         return Contact(homephone=homephone, mobilephone=mobilephone,
-                       workphone=workphone)
+                       workphone=workphone, homephone2=homephone2)
 
 
     def modify_first_contact(self, new_contact_data):
@@ -88,6 +90,7 @@ class ContactHelper:
         self.change_field_value("email3", contact.email3)
         self.change_field_value("homepage", contact.homepage)
         self.change_field_value("address2", contact.address2)
+        self.change_field_value("phone2", contact.homephone2)
         self.change_field_value("address", contact.address)
 
     def change_field_value(self, field_name, text):

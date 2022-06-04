@@ -20,7 +20,7 @@ def random_string(prefix, maxlen, type):
 testdata = [Contact(firstname="", middlename="", lastname="")]+[
     Contact(firstname=random_string("firstname", 10, "string"), middlename=random_string("middlename", 15, "string"), lastname=random_string("lastname", 11, "string"),
             company=random_string("company", 10, "string"), homephone=random_string("+", 10, "phone"), mobilephone=random_string("+", 10, "phone"),
-            workphone=random_string("+", 10, "phone"),
+            workphone=random_string("+", 10, "phone"), homephone2=random_string("+", 10, "phone"),
             email=random_string("email", 10, "email"), email2=random_string("email", 10, "email"), email3=random_string("email", 10, "email"),
             homepage=random_string("homepage", 10, "string"), address=random_string("address", 10, "string"), address2=random_string("address2", 10, "string"))
     for i in range(2)
