@@ -1,27 +1,9 @@
 # -*- coding: utf-8 -*-
 # 1.13th lesson - code refactoring, FF
-import random
-import string
 import pytest
+#from data.add_group import testdata
+from data.add_group import constant as testdata
 from model.group import Group
-
-
-def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
-    return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-
-testdata = [
-    Group(name=name, header=header, footer=footer)
-    for name in ["", random_string("name", 10)]
-    for header in ["", random_string("header", 10)]
-    for footer in ["", random_string("footer", 10)]
-]
-
-testdata0 = [Group(name="", header="", footer="")]+[
-    Group(name=random_string("name", 10), header=random_string("header", 15), footer=random_string("footer", 10))
-    for i in range(5)
-]
 
 
 @pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
