@@ -40,10 +40,16 @@ def pytest_addoption(parser):
 def pytest_generate_tests(metafunc):
     for fixture in metafunc.fixturenames:
         if fixture.startswith("data_"):
-            testdata = load_form_module(fixture[5:])
+            testdata = load_from_module(fixture[5:])
+            metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
+        if fixture.startswith("json_"):
+            testdata = load_from_json(fixture[5:])
             metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
 
 
-def load_form_module(mudule):
+def load_from_module(mudule):
+    return importlib.import_module("data.%s" % mudule).testdata
+
+def load_from_json(mudule):
     return importlib.import_module("data.%s" % mudule).testdata
 
