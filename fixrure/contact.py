@@ -146,10 +146,15 @@ class ContactHelper:
                                                   address=address, all_emails_from_homepage=all_emails))
         return list(self.contact_cache)
 
+#    def contact_count(self):
+#        wd = self.app.wd
+#        self.return_to_home_page()
+#        count = 0
+#        for row in wd.find_elements_by_name("entry"):
+#            count = count + 1
+#        return count
+
     def contact_count(self):
         wd = self.app.wd
         self.return_to_home_page()
-        count = 0
-        for row in wd.find_elements_by_name("entry"):
-            count = count + 1
-        return count
+        return len(wd.find_elements_by_name("selected[]"))
